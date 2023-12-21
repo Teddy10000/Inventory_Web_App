@@ -9,7 +9,9 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+import datetime
 
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -42,16 +44,21 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'dj_rest_auth.registration',
+    'dj_rest_auth.registration', 
+    'Account' ,
+
     
     
     'dj_rest_auth',
 ]
 
+SITE_ID = 1
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+      'allauth.account.middleware.AccountMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -89,12 +96,39 @@ REST_FRAMEWORK = {
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+      'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'inventory',
+        'HOST' : 'localhost',
+         'USER' : 'root' ,
+         'PASSWORD':'#33fhT.iopl@'
     }
+}
+
+JWT_AUTH = {
+    'JWT_SECRET_KEY': 'your-secret-key',  # Replace with your own secret key
+    'JWT_ALGORITHM': 'HS256',
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(minutes=10),  # Set token expiration time
+}
+#set DJ-REST-AUTH TO USE JWT TOKENS
+DJ_REST_AUTH = {
+    'USE_JWT': True,
+}
+
+DJ_JWT_AUTH = {
+    'JWT_SECRET_KEY': 'your-secret-key',
+    'JWT_ALGORITHM': 'HS256',
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_EXPIRATION_DELTA': timedelta(minutes=40),
+    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(minutes=30),
+    'JWT_ROTATE_REFRESH_TOKENS': False,
+    'JWT_BLACKLIST_AFTER_ROTATION': True,
+    'JWT_VERIFYING_KEY': None,
+    'JWT_AUTH_HEADER_TYPES': ('Bearer',),
+    'JWT_AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'JWT_TOKEN_TYPE_CLAIM': 'token_type',
 }
 
 
@@ -138,3 +172,12 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#ADDED FOR ACCOUNT
+AUTH_USER_MODEL = "Account.User"
+ACCOUNT_EMAIL_VERIFICATION = 'None'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
