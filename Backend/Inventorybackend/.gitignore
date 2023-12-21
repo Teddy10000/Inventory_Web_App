@@ -1,0 +1,38 @@
+# Django related
+*.pyc
+*.pyo
+__pycache__/
+*.sqlite3
+*.pyc
+*.pyo
+*.pyd
+
+# Secret keys
+*.env
+
+# IDE/Editor files
+.idea/
+.vscode/
+
+# Dependency directories
+venv/
+env/
+*/venv/
+*/env/
+
+# Compiled Python files
+*.pyc
+
+# Local development settings
+local_settings.py
+
+# Django's collectstatic directory
+static/
+
+# Logs
+log/
+logs/
+*.log
+
+# Ignore .DS_Store files on macOS
+.DS_Store
