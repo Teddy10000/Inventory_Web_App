@@ -1,4 +1,5 @@
-from dj_rest_auth.registration.serializers import RegisterSerializer 
+from dj_rest_auth.registration.serializers import RegisterSerializer
+from dj_rest_auth.serializers import LoginSerializer 
 from . models import User
 
 
@@ -9,4 +10,9 @@ class CustomRegistrationSerializer(RegisterSerializer):
         fields = ('email','first_name','last_name','phone_number')
 
 
+class CustomLoginSerializer(LoginSerializer):
+    username = None; 
+    
+    def _validate_username(self, username,password):    
+        pass; 
 
