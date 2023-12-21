@@ -36,7 +36,16 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles', 
+    'rest_framework',
+    'rest_framework.authtoken',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
+    
+    
+    'dj_rest_auth',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +78,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Inventorybackend.wsgi.application'
 
+REST_FRAMEWORK = {
+    
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
