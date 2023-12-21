@@ -13,6 +13,7 @@ from . views import CustomRegistrationView
 
 urlpatterns = [
     path('register/',CustomRegistrationView.as_view(),name='register'),
-    path('login/',TokenObtainPairView.as_view(),name='login')
+    path('login/',TokenObtainPairView.as_view(),name='login') ,
+    path('token/refresh/',TokenRefreshView.as_view(),name='token-refresh')
     # ... other app URLs
 ]
