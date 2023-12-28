@@ -31,10 +31,19 @@ class Dish(models.Model):
     
 class Order(models.Model):
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
-    ingredients = models.ManyToManyField(Ingredient)
     order_date = models.DateField(auto_now_add=True)
+    total_cost = models.DecimalField(max_digits=10, decimal_places=2)
     # Other fields like status, delivery date, etc.
 
     def __str__(self):
         return f"Order {self.id} - {self.supplier.name}"
 
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, related_name='order_items', on_delete=models.CASCADE)
+    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE, related_name='ingredient')
+    quantity = models.IntegerField()
+    cost = models.DecimalField(max_digits=10, decimal_places=2)
+    # Other fields related to an individual item within an order
+
+    def __str__(self):
+        return f"Order {self.order.id} - {self.ingredient.name} - Qty: {self.quantity}"
