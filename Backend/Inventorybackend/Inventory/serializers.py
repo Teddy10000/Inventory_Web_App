@@ -6,14 +6,14 @@ class IngredientSerializer(serializers.ModelSerializer):
     '''This is the ingredeint serializer responsible for turning the data into json format'''
     class Meta:
         model = Ingredient
-        fields = ['id','quantity','unit_of_measurement']
+        fields = ['id','name','category','quantity','unit_of_measurement']
 
 class CreateIngredientSerializer(serializers.ModelSerializer):
     """Serializer for creating a new ingredients"""
 
     class Meta:
         model = Ingredient 
-        fields = ['id','quantity','unit_of_measurement']
+        fields = ['id','name','category','quantity','unit_of_measurement']
         read_only_fields = ['id'] 
 
         def create(self,**validated_data):

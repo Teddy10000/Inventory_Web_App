@@ -2,9 +2,15 @@ from django.db import models
 
 # Create your models here.
 
+
+class Category(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=24)
+    
 class Ingredient(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=40)
+    Category = models.ForeignKey(Category,on_delete=models.CASCADE)
     quantity = models.IntegerField()
     unit_of_measurement = models.CharField(max_length=40)
 
