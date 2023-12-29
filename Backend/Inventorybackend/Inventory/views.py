@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics, status , permissions
 from rest_framework.response import Response
 from .models import Ingredient,Supplier,Order,Dish
+from django.db.models import F
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect
 from . serializers import OrderSerializer,OrderItemSerializer , CreateSupplierSerializer, UpdateDishSerializer,DishIngredientSerializer,DishSerializer,SupplierSerializer,IngredientSerializer,CreateIngredientSerializer
@@ -97,6 +98,7 @@ class OrderDetailedView(generics.RetrieveAPIView):
     permission_classes =[permissions.IsAuthenticated]
 
 class OrderDestroyView(generics.DestroyAPIView):
+    """FOR THE ORDER DELETE VIEW"""
     serializer_class = OrderSerializer  # You might not need a serializer here
     queryset = Order.objects.all()
     lookup_field = 'pk'
@@ -114,6 +116,23 @@ class OrderDestroyView(generics.DestroyAPIView):
             ingredient.quantity -= item.quantity
             ingredient.save()
         instance.delete()
+
+class OrderUpdateView(generics.UpdateAPIView):
+    serializer_class = OrderSerializer
+    queryset = Order.objects.all()
+    lookup_field = 'pk'
+    
+    @transaction.atomic
+    def perform_update(self,serializer):
+        order = serializer.save()
+
+        #updating ingredient quantities based on changes in order items
+        for item in order.items.all():
+            ingredient = item.ingredient
+            old_quantity = getattr(serializer.instance.items.get(pk=item.pk), 'quantity', 0)  # Get old quantity
+            ingredient.quantity = F('quantity') - old_quantity + item.quantity
+            ingredient.save()
+
 
 
 
