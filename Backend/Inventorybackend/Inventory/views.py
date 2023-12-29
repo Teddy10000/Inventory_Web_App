@@ -26,6 +26,7 @@ class SupplierListView(generics.ListAPIView):
 class SupplierRetrieveView(generics.RetrieveAPIView):
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
+    lookup_field = 'pk'
 
 class SupplierCreateView(generics.CreateAPIView):
     queryset = Supplier.objects.all()
@@ -34,6 +35,18 @@ class SupplierCreateView(generics.CreateAPIView):
 class SupplierUpdateView(generics.UpdateAPIView):
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
+
+
+class DishListView(generics.ListAPIView):
+    serializer_class = DishSerializer
+    queryset = Dish.objects.all()   
+
+class DishDetailedView(generics.RetrieveAPIView):
+    """Queryset used to show what the view can have access to"""
+    serializer_class = DishSerializer
+    queryset = Dish.objects.all()
+
+
 
 class OrderCreateView(generics.CreateAPIView):
     serializer_class = OrderSerializer
