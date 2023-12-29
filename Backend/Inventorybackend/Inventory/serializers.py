@@ -80,7 +80,41 @@ class CreateDishSerializer(serializers.ModelSerializer):
                 ingredient.save()
             return dish
             
-     
+class UpdateDishSerializer(serializers.ModelSerializer):
+    """Serializer for updating a dish, including nested ingredient fields."""
+
+    ingredients = DishIngredientSerializer(many=True, required=False)
+
+    class Meta:
+        model = Dish
+        fields = ['id', 'name', 'price', 'ingredients']
+
+    def update(self, instance, validated_data):
+        """Updates a dish instance, handling ingredient additions, removals, and quantity updates."""
+        #Update non-ingredient fields\
+        for field, value in validated_data.items():
+            if field != 'ingredients': 
+                #For setting attribute value to the field
+                setattr(instance, field, value)
+
+        #Handle ingrdient updates
+        ingredient_data = validated_data.get('ingredients',[])
+        #Add new ingredients
+        for ingredient in ingredient_data:
+            ingredient_obj = Ingredient.objects.get(pk=ingredient['ingredient_id'])
+            instance.ingredients.add(ingredient_obj)
+            ingredient_obj.quantity -= ingredient['quantity']
+            ingredient_obj.save()
+
+        #Remove removed ingredients
+        for ingredient in instance.ingredients.all():
+            if ingredient not in ingredient_data:
+                instance.ingredients.remove(ingredient)
+                ingredient.quantity += ingredient_obj.quantity_used
+                ingredient.save()
+        instance.save()
+
+    
 
 class OrderItemSerializer(serializers.ModelSerializer):
     '''OrderItem seriailizer i need some items explicitly so i have to  like the ingredient making the order item'''
