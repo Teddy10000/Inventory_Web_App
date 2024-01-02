@@ -6,7 +6,7 @@ from django.db.models import F
 
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect
-from . serializers import OrderSerializer,OrderItemSerializer , CreateSupplierSerializer, UpdateDishSerializer,DishIngredientSerializer,DishSerializer,SupplierSerializer,IngredientSerializer,CreateIngredientSerializer
+from . serializers import OrderSerializer, CreateDishSerializer,OrderItemSerializer , CreateSupplierSerializer, UpdateDishSerializer,DishIngredientSerializer,DishSerializer,SupplierSerializer,IngredientSerializer,CreateIngredientSerializer
 # Create your views here.
 from rest_framework import serializers
 class CreateIngredientViews(generics.CreateAPIView):
@@ -33,7 +33,7 @@ class SupplierListView(generics.ListAPIView):
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
 
-class SupplierRetrieveView(generics.RetrieveAPIView):
+class SupplierDetailedView(generics.RetrieveAPIView):
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
     lookup_field = 'pk'
@@ -46,6 +46,9 @@ class SupplierUpdateView(generics.UpdateAPIView):
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
 
+class DishCreateView(generics.CreateAPIView):
+    serializer_class = CreateDishSerializer
+    queryset = Dish.objects.all()
 
 class DishListView(generics.ListAPIView):
     serializer_class = DishSerializer
@@ -65,7 +68,9 @@ class DishUpdateView(generics.UpdateAPIView):
 
 
 class DishDetailedView(generics.RetrieveAPIView):
-    serializer_class = DishSerializer
+    serializer_class = DishSerializer 
+    queryset = Dish.objects.all()
+    lookup_field = 'pk'
 
 class OrderCreateView(generics.CreateAPIView):
     serializer_class = OrderSerializer

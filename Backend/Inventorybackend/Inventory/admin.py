@@ -12,3 +12,9 @@ class IngredientAdmin(admin.ModelAdmin):
     list_display = ['id','name','quantity']
     list_filter = ['category']
     search_fields = ['name','description']
+
+@admin.register(Supplier)
+class SupplierAdmin(admin.ModelAdmin):
+    list_display = ['id','name','contact','email']
+    list_filter = ['name','email']
+    search_fields = ['name']
