@@ -22,6 +22,12 @@ class IngredientDetailedView(generics.RetrieveAPIView):
     queryset = Ingredient.objects.all()
     lookup_field = 'pk'
 
+class IngredientDeleteView(generics.DestroyAPIView):
+    serializer_class = IngredientSerializer
+    queryset = Ingredient.objects.all()
+    lookup_field = 'pk'
+
+
 
 class SupplierListView(generics.ListAPIView):
     queryset = Supplier.objects.all()
