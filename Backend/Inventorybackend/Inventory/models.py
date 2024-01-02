@@ -30,6 +30,7 @@ class Supplier(models.Model):
 class Dish(models.Model):
     name = models.CharField(max_length=255)
     ingredients = models.ManyToManyField(Ingredient, through='Recipe')
+    description = models.TextField(max_length=255)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     # Other fields like description, category, etc.
 
