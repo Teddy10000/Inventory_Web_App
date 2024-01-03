@@ -1,4 +1,4 @@
-from . models import Ingredient , Supplier,Order, OrderItem,Dish
+from . models import Ingredient , Supplier,Order, OrderItem,Dish,Category
 from rest_framework import serializers
 
 
@@ -24,6 +24,10 @@ class SupplierSerializer(serializers.ModelSerializer):
         model = Supplier
         fields = ['id','name','contact','email'] 
 
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['id','name','description']
 
 class CreateSupplierSerializer(serializers.ModelSerializer):
     class Meta:

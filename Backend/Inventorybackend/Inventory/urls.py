@@ -1,17 +1,18 @@
 from rest_framework import routers
 from django.urls import path, include
-from . views import (DishListView,DishCreateView,SupplierListView,SupplierDetailedView,OrderListView,OrderDetailedView,CreateIngredientViews,SupplierCreateView,DishUpdateView,DishDetailedView,
+from . views import (DishListView,CategoryViewSet,DishCreateView,SupplierListView,SupplierDetailedView,OrderListView,OrderDetailedView,CreateIngredientViews,SupplierCreateView,DishUpdateView,DishDetailedView,
                      OrderDestroyView,SupplierUpdateView, SupplierDeleteView,IngredientDeleteView,IngredientListView,OrderCreateView,OrderUpdateView,IngredientDetailedView)
 
 
-
+router =routers.DefaultRouter()
+router.register('category', CategoryViewSet)
 urlpatterns = [
 
-    path('ingredient/create/',CreateIngredientViews.as_view,name='create_ingredient'),
-    path('ingredient/',IngredientListView.as_view,name='ingredient_list'),
-    path('ingredient/<int:pk>/',IngredientDetailedView.as_view,name='ingredient_detail'),
-    path('ingredient/<int:pk>/delete/',IngredientDeleteView.as_view,name='ingredient_delete'),
-
+    path('ingredient/create/',CreateIngredientViews.as_view(),name='create_ingredient'),
+    path('ingredient/',IngredientListView.as_view(),name='ingredient_list'),
+    path('ingredient/<int:pk>/',IngredientDetailedView.as_view(),name='ingredient_detail'),
+    path('ingredient/<int:pk>/delete/',IngredientDeleteView.as_view(),name='ingredient_delete'),
+    path('',include(router.urls)) ,
 
     # Supplier URLs
     path('supplier/', SupplierListView.as_view(), name='supplier_list'),

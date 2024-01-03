@@ -1,14 +1,22 @@
 from django.shortcuts import render
 from rest_framework import generics, status , permissions
 from rest_framework.response import Response
-from .models import Ingredient,Supplier,Order,Dish
+from .models import Ingredient,Supplier,Order,Dish,Category
+from rest_framework.viewsets import ModelViewSet
+
 from django.db.models import F
 
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect
-from . serializers import OrderSerializer, CreateDishSerializer,OrderItemSerializer , CreateSupplierSerializer, UpdateDishSerializer,DishIngredientSerializer,DishSerializer,SupplierSerializer,IngredientSerializer,CreateIngredientSerializer
+from . serializers import OrderSerializer, CategorySerializer, CreateDishSerializer,OrderItemSerializer , CreateSupplierSerializer, UpdateDishSerializer,DishIngredientSerializer,DishSerializer,SupplierSerializer,IngredientSerializer,CreateIngredientSerializer
 # Create your views here.
 from rest_framework import serializers
+
+
+class CategoryViewSet(ModelViewSet):
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
+
 class CreateIngredientViews(generics.CreateAPIView):
     serializer_class = CreateIngredientSerializer
     queryset = Ingredient.objects.all()
@@ -50,7 +58,7 @@ class SupplierDeleteView(generics.DestroyAPIView):
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
     lookup_field = 'pk'
-    
+
 class DishCreateView(generics.CreateAPIView):
     serializer_class = CreateDishSerializer
     queryset = Dish.objects.all()
