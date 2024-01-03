@@ -46,6 +46,11 @@ class SupplierUpdateView(generics.UpdateAPIView):
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
 
+class SupplierDeleteView(generics.DestroyAPIView):
+    queryset = Supplier.objects.all()
+    serializer_class = SupplierSerializer
+    lookup_field = 'pk'
+    
 class DishCreateView(generics.CreateAPIView):
     serializer_class = CreateDishSerializer
     queryset = Dish.objects.all()

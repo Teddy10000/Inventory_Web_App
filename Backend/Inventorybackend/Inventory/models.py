@@ -11,7 +11,7 @@ class Category(models.Model):
 class Ingredient(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=40)
-    Category = models.ForeignKey(Category,on_delete=models.CASCADE)
+    category = models.ForeignKey(Category,on_delete=models.CASCADE)
     quantity = models.IntegerField()
     unit_of_measurement = models.CharField(max_length=40)
 
@@ -29,7 +29,7 @@ class Supplier(models.Model):
 
 class Dish(models.Model):
     name = models.CharField(max_length=255)
-    ingredients = models.ManyToManyField(Ingredient, through='Recipe')
+    ingredients = models.ManyToManyField(Ingredient)
     description = models.TextField(max_length=255)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     # Other fields like description, category, etc.

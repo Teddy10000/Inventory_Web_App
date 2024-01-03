@@ -1,7 +1,7 @@
 from rest_framework import routers
 from django.urls import path, include
 from . views import (DishListView,DishCreateView,SupplierListView,SupplierDetailedView,OrderListView,OrderDetailedView,CreateIngredientViews,SupplierCreateView,DishUpdateView,DishDetailedView,
-                     OrderDestroyView,SupplierUpdateView,IngredientDeleteView,IngredientListView,OrderCreateView,OrderUpdateView,IngredientDetailedView)
+                     OrderDestroyView,SupplierUpdateView, SupplierDeleteView,IngredientDeleteView,IngredientListView,OrderCreateView,OrderUpdateView,IngredientDetailedView)
 
 
 
@@ -18,6 +18,7 @@ urlpatterns = [
     path('supplier/<int:pk>/', SupplierDetailedView.as_view(), name='supplier_detail'),
     path('supplier/create/', SupplierCreateView.as_view(), name='create_supplier'),
     path('supplier/<int:pk>/update/', SupplierUpdateView.as_view(), name='supplier_update'),
+    path('supplier/<int:pk>/delete/', SupplierDeleteView.as_view(), name='supplier_delete') ,
 
 
       # Dish URLs

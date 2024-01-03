@@ -1,5 +1,6 @@
 import dj_rest_auth
 from Account import urls
+from Inventory import urls as Inventoryurls
 from django.urls import path,include
 """
 URL configuration for Inventorybackend project.
@@ -22,5 +23,6 @@ from django.urls import path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('auth/',include(urls))
+    path('auth/',include(urls)),
+    path('inventory/',include(Inventoryurls))
 ]
