@@ -9,6 +9,22 @@ class Organization(models.Model):
     contact_information = models.JSONField()
     # Other relevant fields (e.g., address, registration details)
 
+class Brand(models.Model):
+
+        
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)  # Optional for detailed brand info
+    website = models.URLField(blank=True)  # Optional for linking to the brand's site
+    logo = models.ImageField(upload_to='brands/', blank=True)  # Optional for brand imagery
+
+    def __str__(self):
+        return self.name
+
+class Category(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=24)
+    description = models.TextField()
 
 class Supplier(models.Model):
     id = models.AutoField(primary_key=True)
@@ -32,7 +48,7 @@ class Product(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     sku = models.CharField(max_length=255, unique=True)
-    category = models.ForeignKey('Category', on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     brand = models.ForeignKey('Brand', on_delete=models.CASCADE, blank=True)
     suppliers = models.ManyToManyField('Supplier')
     attributes = models.JSONField(blank=True)
