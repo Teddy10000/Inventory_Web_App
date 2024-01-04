@@ -1,4 +1,23 @@
 from rest_framework import serializers
+from . models import Inventory,PurchaseOrder,PurchaseOrderItem,Product,Customer,Organization
+
+from rest_framework import serializers
+from .models import Customer, SalesOrder
+
+class SalesOrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SalesOrder
+        fields = '__all__'  # Include all fields of SalesOrder
+
+class CustomerSerializer(serializers.ModelSerializer):
+    purchase_history = SalesOrderSerializer(many=True, read_only=True, source='salesorder_set')
+
+    class Meta:
+        model = Customer
+        fields = ('id', 'name', 'contact_information', 'credit_limit', 'payment_terms', 'purchase_history')
+
+
+
 
 class InventorySerializer(serializers.ModelSerializer):
     class Meta:
