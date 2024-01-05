@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from . models import Inventory,PurchaseOrder,PurchaseOrderItem,Product,Customer,Organization
+from . models import Inventory, Location,PurchaseOrder,PurchaseOrderItem,Product,Customer,Organization
 
 from rest_framework import serializers
 from .models import Customer, SalesOrder
-
+from django.db import transaction
 class SalesOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = SalesOrder
@@ -149,9 +149,31 @@ class PurchaseOrderSerializer(serializers.ModelSerializer):
                     inventory.quantity += item.quantity
                     inventory.expected_quantity -= item.quantity
                     inventory.save()
-            self.update_supplier_status(instance.supplier,status)
+            self.update_supplier_status(instance.supplier,new_status)
+
+class LocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Location
+        fields = ['id','name','type','address','capacity','manager','organization']
 
 
             
+class LocationCreateSerializer(LocationSerializer):
+    def validate(self,data):
+        #VALIDATION LOGIC HERE
+
+        required_fields = ['id','name','type','address','capacity','manager']
+        for field in required_fields:
+            if field in data and not data.get(field):
+                raise serializers.ValidationError(f"{field} is required")
+        return data
+    
+    def create(self,**validated_data):
+        with transaction.atomic():
+            # Handle manager assignment, capacity checks, and other logic as needed
+            location = Location.objects.create(**validated_data)
+            return location
+
+
 
 

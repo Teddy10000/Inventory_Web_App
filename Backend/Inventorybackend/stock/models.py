@@ -92,10 +92,11 @@ class PurchaseOrder(models.Model):
     order_date = models.DateTimeField(auto_now_add=True)
     expected_delivery_date = models.DateField()
     status = models.CharField(max_length=255, choices=[('PENDING', 'Pending'), ('CONFIRMED', 'Confirmed'), ('SHIPPED', 'Shipped'), ('RECEIVED', 'Received')])
-    items = models.ManyToManyField('Inventory', through='PurchaseOrderItem')
+    items = models.ManyToManyField(Inventory, through='PurchaseOrderItem')
     total_cost = models.DecimalField(max_digits=10, decimal_places=2)
     payment_terms = models.CharField(max_length=255)
     notes = models.TextField(blank=True)
+    updated_by= models.ForeignKey('User', on_delete=models.CASCADE,auto_now_add=True)
     organization = models.ForeignKey('Organization', on_delete=models.CASCADE)
 
 class PurchaseOrderItem(models.Model):
